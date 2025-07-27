@@ -21,6 +21,11 @@ public:
 	void run()
 	{
 		while (window.isOpen()) {
+
+			Vector2f pos = ball.getPosition();
+			float size = ball.getRadius();
+			Vector2u windowSize = window.getSize();
+
 			Event event;
 
 			while (window.pollEvent(event)) {
@@ -28,12 +33,26 @@ public:
 					window.close();
 			}
 			if (Keyboard::isKeyPressed(Keyboard::Left)) {
-				player.move(-0.1f, 0.f);
+				player.move(-0.3f, 0.f);
 			}
 			if (Keyboard::isKeyPressed(Keyboard::Right)) {
-				player.move(0.1f, 0.f);
+				player.move(0.3f, 0.f);
 			}
-			ball.move(ballVelocity);
+			if(pos.x + size >= windowSize.x || pos.x <= 0) {
+				ballVelocity.x = -ballVelocity.x;
+			}
+			if(pos.y + size >= windowSize.y || pos.y <= 0) {
+				ballVelocity.y = -ballVelocity.y;
+			}
+			if (pos.y + size >= player.getPosition().y && pos.x + size >= player.getPosition().x && pos.x <= player.getPosition().x + player.getSize().x) {
+				ballVelocity.y = -ballVelocity.y;
+			}
+			if(pos.y + size >= windowSize.y) {
+				window.close();
+			}
+			else {
+				ball.move(ballVelocity);
+			}
 			renderScreen();
 		}
 	}
