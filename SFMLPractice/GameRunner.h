@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObjectCreator.h"
 using namespace sf;
+sf::Texture GameObjectCreator::ballTexture;
 extern Vector2f ballVelocity;
 class GameRunner
 {
