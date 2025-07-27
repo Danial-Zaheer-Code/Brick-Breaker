@@ -7,7 +7,7 @@ int main() {
 	RectangleShape rect(Vector2f(30.f, 30.f));
 	rect.setFillColor(Color::Green);
 	rect.setPosition(200.f, 200.f);
-    
+    //hello world
     ball.setFillColor(Color::Red);
     ball.setPosition(300.f, 300.f);
     while (window.isOpen()) {
