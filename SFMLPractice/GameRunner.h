@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObjectCreator.h"
 using namespace sf;
-sf::Texture GameObjectCreator::ballTexture;
 extern Vector2f ballVelocity;
 class GameRunner
 {
@@ -34,10 +33,10 @@ public:
 					window.close();
 			}
 			if (Keyboard::isKeyPressed(Keyboard::Left)) {
-				player.move(-0.3f, 0.f);
+				player.move(-0.4f, 0.f);
 			}
 			if (Keyboard::isKeyPressed(Keyboard::Right)) {
-				player.move(0.3f, 0.f);
+				player.move(0.4f, 0.f);
 			}
 			if(pos.x + size >= windowSize.x || pos.x <= 0) {
 				ballVelocity.x = -ballVelocity.x;
