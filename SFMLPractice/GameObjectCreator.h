@@ -1,8 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 using namespace sf;
+extern Vector2f ballVelocity = Vector2f(0.01f, 0.01f);
 class GameObjectCreator
 {
+
 private:
 	static RectangleShape createRectangle(Vector2f size, Vector2f position, Color color)
 	{
