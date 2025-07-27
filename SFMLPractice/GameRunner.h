@@ -32,7 +32,6 @@ public:
 	}
 	~GameRunner() = default;
 
-private:
 	void run()
 	{
 		while (window.isOpen()) {
