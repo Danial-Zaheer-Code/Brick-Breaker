@@ -1,34 +1,14 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+#include "GameObjectCreator.h"
 using namespace sf;
-class GameObjectCreator
-{
-public:
-	static RectangleShape createRectangle(Vector2f size, Vector2f position, Color color)
-	{
-		RectangleShape rect(size);
-		rect.setFillColor(color);
-		rect.setPosition(position);
-		return rect;
-	}
-
-	static CircleShape createBall()
-	{
-		CircleShape ball = CircleShape(7.f);
-		ball.setFillColor(Color::Red);
-		ball.setPosition(300.f, 300.f);
-		return ball;
-	}
-};
-
 
 class GameRunner
 {
 public:
 	GameRunner(): window(sf::VideoMode(1000, 600), "SFML Test")
 	{
-		ball = GameObjectCreator::createBall();
-		player = GameObjectCreator::createRectangle(Vector2f(65.f, 6.f), Vector2f(100.f, 100.f), Color::Green);
+		ball = GameObjectCreator::createBall(Vector2f(200,200));
+		player = GameObjectCreator::createPlayer(Vector2f(300,200));
 	}
 	~GameRunner() = default;
 
