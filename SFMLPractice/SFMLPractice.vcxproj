@@ -135,6 +135,7 @@
     <ClInclude Include="GameObjectFactory.h" />
     <ClInclude Include="GameRunner.h" />
     <ClInclude Include="GameStateManager.h" />
+    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="MoveableObjectManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

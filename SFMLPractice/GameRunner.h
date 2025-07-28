@@ -47,7 +47,6 @@ private:
 
 
 private:
-	RectangleShape level[5][5];
 	RenderWindow window;
 	GameStateManager gameStateManager;
 };

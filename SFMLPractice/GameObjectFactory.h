@@ -5,7 +5,7 @@ using namespace sf;
 class GameObjectFactory 
 {
 public:
-	static RectangleShape createbreakableBlock(Vector2f position)
+	static RectangleShape createBreakableBlock(Vector2f position)
 	{
 		return createRectangle(Vector2f(40.f, 15.f), position, Color::White);
 	}
