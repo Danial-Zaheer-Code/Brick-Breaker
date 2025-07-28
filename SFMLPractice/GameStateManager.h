@@ -1,5 +1,6 @@
 #pragma once
 #include"MoveableObjectManager.h"
+#include"LevelManager.h"
 
 enum GameState
 {
@@ -20,14 +21,16 @@ public:
 		if (!moveableObjectManager.updateBallMovement()) {
 			return GAME_OVER;
 		}
-
 		return PLAYING;
 	}
 
 	void drawState(RenderTarget& window)
 	{
 		moveableObjectManager.drawMoveableObjects(window);
+		levelManager.drawLevel(window);
 	}
 private:
 	MoveableObjectManager moveableObjectManager;
+	LevelManager levelManager;
+	
 };
