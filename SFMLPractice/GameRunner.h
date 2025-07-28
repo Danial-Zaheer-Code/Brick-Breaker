@@ -1,10 +1,11 @@
 #pragma once
-#include"MoveableObjectManager.h"
+#include"GameStateManager.h"
 
 class GameRunner
 {
 public:
-	GameRunner() : window(sf::VideoMode(1000, 800), "SFML Test"), moveableObjectManager(window.getSize()){}
+	GameRunner() : 
+		window(sf::VideoMode(1000, 800), "SFML Test"), gameStateManager(window.getSize()){}
 	~GameRunner() = default;
 
 	void run()
@@ -15,10 +16,13 @@ public:
 				if (event.type == Event::Closed)
 					window.close();
 			}
-		
-			moveableObjectManager.handlePlayerMovement();
-			if(!moveableObjectManager.updateBallMovement()) {
+
+			GameState updatedState = gameStateManager.updateState();
+
+			if (updatedState == GameState::GAME_OVER)
+			{
 				window.close();
+				return;
 			}
 
 			renderScreen();
@@ -26,7 +30,6 @@ public:
 	}
 
 private:
-
 	void renderScreen()
 	{
 		window.clear(Color::Black);
@@ -38,16 +41,14 @@ private:
 				window.draw(level[i][j]);
 			}
 		}*/
-		moveableObjectManager.drawMoveableObjects(window);
+		gameStateManager.drawState(window);
 		window.display();
 	}
 
 
 private:
 	RectangleShape level[5][5];
-	CircleShape ball;
-	RectangleShape player;
 	RenderWindow window;
-	MoveableObjectManager moveableObjectManager;
+	GameStateManager gameStateManager;
 };
 

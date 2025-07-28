@@ -1,16 +1,18 @@
 #pragma once
-#include "GameObjectCreator.h"
+#include "GameObjectFactory.h"
+
+
 class MoveableObjectManager
 {
 public:
 	MoveableObjectManager(Vector2u _windowSize) : windowSize(_windowSize)
 	{
 		Vector2f playerPosition(460.f, 600.f);
-		player = GameObjectCreator::createPlayer(playerPosition);
+		player = GameObjectFactory::createPlayer(playerPosition);
 
 		float ballSize = 7.f;
 		Vector2f playerSize = player.getSize();
-		ball = GameObjectCreator::createBall(
+		ball = GameObjectFactory::createBall(
 			Vector2f(playerPosition.x + playerSize.x / 2, playerPosition.y - ballSize - ballSize)
 		);
 
@@ -51,7 +53,7 @@ public:
 		return true;
 	}
 
-	void drawMoveableObjects(RenderWindow& window)
+	void drawMoveableObjects(RenderTarget& window)
 	{
 		window.draw(ball);
 		window.draw(player);
@@ -62,5 +64,6 @@ private:
 	RectangleShape player;
 	Vector2f ballVelocity = Vector2f(0.5f, 0.5f);
 	const Vector2f windowSize;
-
 };
+
+

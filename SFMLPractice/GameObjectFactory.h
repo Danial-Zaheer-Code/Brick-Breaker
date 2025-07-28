@@ -1,7 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 using namespace sf;
-class GameObjectCreator 
+
+class GameObjectFactory 
 {
 public:
 	static RectangleShape createbreakableBlock(Vector2f position)
