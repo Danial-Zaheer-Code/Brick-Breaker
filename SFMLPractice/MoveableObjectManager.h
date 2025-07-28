@@ -1,0 +1,66 @@
+#pragma once
+#include "GameObjectCreator.h"
+class MoveableObjectManager
+{
+public:
+	MoveableObjectManager(Vector2u _windowSize) : windowSize(_windowSize)
+	{
+		Vector2f playerPosition(460.f, 600.f);
+		player = GameObjectCreator::createPlayer(playerPosition);
+
+		float ballSize = 7.f;
+		Vector2f playerSize = player.getSize();
+		ball = GameObjectCreator::createBall(
+			Vector2f(playerPosition.x + playerSize.x / 2, playerPosition.y - ballSize - ballSize)
+		);
+
+	}
+
+	~MoveableObjectManager() = default;
+
+	void handlePlayerMovement()
+	{
+		if (Keyboard::isKeyPressed(Keyboard::Left)) {
+			player.move(-0.4f, 0.f);
+		}
+		if (Keyboard::isKeyPressed(Keyboard::Right)) {
+			player.move(0.4f, 0.f);
+		}
+	}
+
+	bool updateBallMovement()
+	{
+		Vector2f ballPosition = ball.getPosition();
+		float radius = ball.getRadius();
+
+		if (ballPosition.x + radius >= windowSize.x || ballPosition.x <= 0) {
+			ballVelocity.x = -ballVelocity.x;
+		}
+		if (ballPosition.y + radius >= windowSize.y || ballPosition.y <= 0) {
+			ballVelocity.y = -ballVelocity.y;
+		}
+		if (ballPosition.y + radius >= player.getPosition().y && ballPosition.x + radius >= player.getPosition().x && ballPosition.x <= player.getPosition().x + player.getSize().x) {
+			ballVelocity.y = -ballVelocity.y;
+		}
+
+		if (ballPosition.y + radius >= windowSize.y) {
+			return false;
+		}
+
+		ball.move(ballVelocity);
+		return true;
+	}
+
+	void drawMoveableObjects(RenderWindow& window)
+	{
+		window.draw(ball);
+		window.draw(player);
+	}
+
+private:
+	CircleShape ball;
+	RectangleShape player;
+	Vector2f ballVelocity = Vector2f(0.5f, 0.5f);
+	const Vector2f windowSize;
+
+};

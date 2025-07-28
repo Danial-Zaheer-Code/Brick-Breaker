@@ -1,63 +1,32 @@
 #pragma once
-#include "GameObjectCreator.h"
-using namespace sf;
-extern Vector2f ballVelocity;
+#include"MoveableObjectManager.h"
+
 class GameRunner
 {
 public:
-	GameRunner(): window(sf::VideoMode(1000, 800), "SFML Test")
-	{
-		float ballSize = 7.f;
-		Vector2f playerPosition(460.f, 700.f);
-		Vector2f playerSize(65.f, 6.f);
-		player = GameObjectCreator::createPlayer(playerPosition);
-        ball = GameObjectCreator::createBall(
-            Vector2f(playerPosition.x + playerSize.x / 2, playerPosition.y-ballSize-ballSize)
-        );
-
-	}
+	GameRunner() : window(sf::VideoMode(1000, 800), "SFML Test"), moveableObjectManager(window.getSize()){}
 	~GameRunner() = default;
 
 	void run()
 	{
 		while (window.isOpen()) {
-
-			Vector2f pos = ball.getPosition();
-			float size = ball.getRadius();
-			Vector2u windowSize = window.getSize();
-
 			Event event;
-
 			while (window.pollEvent(event)) {
 				if (event.type == Event::Closed)
 					window.close();
 			}
-			if (Keyboard::isKeyPressed(Keyboard::Left)) {
-				player.move(-0.4f, 0.f);
-			}
-			if (Keyboard::isKeyPressed(Keyboard::Right)) {
-				player.move(0.4f, 0.f);
-			}
-			if(pos.x + size >= windowSize.x || pos.x <= 0) {
-				ballVelocity.x = -ballVelocity.x;
-			}
-			if(pos.y + size >= windowSize.y || pos.y <= 0) {
-				ballVelocity.y = -ballVelocity.y;
-			}
-			if (pos.y + size >= player.getPosition().y && pos.x + size >= player.getPosition().x && pos.x <= player.getPosition().x + player.getSize().x) {
-				ballVelocity.y = -ballVelocity.y;
-			}
-			if(pos.y + size >= windowSize.y) {
+		
+			moveableObjectManager.handlePlayerMovement();
+			if(!moveableObjectManager.updateBallMovement()) {
 				window.close();
 			}
-			else {
-				ball.move(ballVelocity);
-			}
+
 			renderScreen();
 		}
 	}
 
 private:
+
 	void renderScreen()
 	{
 		window.clear(Color::Black);
@@ -69,9 +38,7 @@ private:
 				window.draw(level[i][j]);
 			}
 		}*/
-
-		window.draw(ball);
-		window.draw(player);
+		moveableObjectManager.drawMoveableObjects(window);
 		window.display();
 	}
 
@@ -81,5 +48,6 @@ private:
 	CircleShape ball;
 	RectangleShape player;
 	RenderWindow window;
+	MoveableObjectManager moveableObjectManager;
 };
 
