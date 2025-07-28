@@ -24,12 +24,12 @@ public:
 	{
 		if (Keyboard::isKeyPressed(Keyboard::Left)) {
 			if (player.getPosition().x > 0.f) {
-				player.move(-0.3f, 0.f);
+				player.move(-0.5f, 0.f);
 			}
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Right)) {
 			if (player.getPosition().x + player.getSize().x < windowSize.x) {
-				player.move(0.3f, 0.f);
+				player.move(0.5f, 0.f);
 			}
 		}
 	}
@@ -66,7 +66,7 @@ public:
 private:
 	CircleShape ball;
 	RectangleShape player;
-	Vector2f ballVelocity = Vector2f(0.1f, 0.1f);
+	Vector2f ballVelocity = Vector2f(0.5f, 0.5f);
 	const Vector2f windowSize;
 };
 

@@ -2,6 +2,16 @@
 #include"GameObjectFactory.h"
 #include<vector>
 using std::vector;
+
+
+enum class BlockType
+{
+	Breakable,
+	Unbreakable,
+	None
+};
+
+
 class LevelManager
 {
 public:
@@ -9,17 +19,17 @@ public:
 	{
 		blocks.reserve(2);
 
-		blocks.push_back(GameObjectFactory::createBreakableBlock(Vector2f(10, 100)));
-		/*blocks.push_back(GameObjectFactory::createBreakableBlock(Vector2f(25, 100)));
-		blocks.push_back(GameObjectFactory::createBreakableBlock(Vector2f(40, 100)));
-		blocks.push_back(GameObjectFactory::createBreakableBlock(Vector2f(55, 100)));
-		blocks.push_back(GameObjectFactory::createBreakableBlock(Vector2f(70, 100)));*/
+		blocks.push_back(GameObjectFactory::createBreakableBlock(Vector2f(400, 100)));
+		blocks.push_back(GameObjectFactory::createBreakableBlock(Vector2f(500, 100)));
+		blocks.push_back(GameObjectFactory::createBreakableBlock(Vector2f(600, 100)));
+		blocks.push_back(GameObjectFactory::createBreakableBlock(Vector2f(700, 100)));
+		blocks.push_back(GameObjectFactory::createBreakableBlock(Vector2f(300, 100)));
 
-		//blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(5, 120)));
-		/*blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(20, 120)));
-		blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(35, 120)));
-		blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(50, 120)));
-		blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(65, 120)));*/
+		blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(450, 100)));
+		blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(550, 100)));
+		blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(650, 100)));
+		blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(350, 100)));
+		blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(750, 100)));
 	}
 
 	void drawLevel(RenderTarget& window)
@@ -30,6 +40,7 @@ public:
 		}
 	}
 
+	
 private:
 	vector<RectangleShape> blocks;
 };

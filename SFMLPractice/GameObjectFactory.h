@@ -7,12 +7,12 @@ class GameObjectFactory
 public:
 	static RectangleShape createBreakableBlock(Vector2f position)
 	{
-		return createRectangle(Vector2f(12.f, 15.f), position, Color::White);
+		return createRectangle(Vector2f(45.f, 15.f), position, Color::White);
 	}
 
 	static RectangleShape createUnbreakableBlock(Vector2f position)
 	{
-		return createRectangle(Vector2f(15.f, 14.f), position, Color::Blue);;
+		return createRectangle(Vector2f(45.f, 15.f), position, Color::Blue);;
 	}
 
 	static RectangleShape createPlayer(Vector2f position)
