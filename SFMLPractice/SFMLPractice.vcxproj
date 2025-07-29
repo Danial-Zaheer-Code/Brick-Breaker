@@ -133,7 +133,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BallManager.h" />
-    <ClInclude Include="CollisionTypes.h" />
     <ClInclude Include="GameObjectFactory.h" />
     <ClInclude Include="GameRunner.h" />
     <ClInclude Include="GameStateManager.h" />

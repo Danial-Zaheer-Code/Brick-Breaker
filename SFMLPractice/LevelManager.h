@@ -1,11 +1,16 @@
 #pragma once
 #include"GameObjectFactory.h"
 #include<vector>
-#include"CollisionTypes.h"
 using namespace std;
 using std::vector;
 
-
+enum class CollisionSide {
+	TOP,
+	BOTTOM,
+	LEFT,
+	RIGHT,
+	NONE
+};
 enum class BlockType
 {
 	BREAKABLE,
