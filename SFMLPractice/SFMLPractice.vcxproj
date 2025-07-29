@@ -132,6 +132,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisionTypes.h" />
     <ClInclude Include="GameObjectFactory.h" />
     <ClInclude Include="GameRunner.h" />
     <ClInclude Include="GameStateManager.h" />

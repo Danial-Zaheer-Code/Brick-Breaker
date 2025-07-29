@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObjectFactory.h"
-
+#include "CollisionTypes.h"
 class BallManager
 {
 public:
@@ -30,7 +30,7 @@ public:
 		return ball.getPosition();
 	}
 
-	float getBallRadius() const
+	float getBallRadius()
 	{
 		return ball.getRadius();
 	}
@@ -140,12 +140,12 @@ public:
 	{
 		if (Keyboard::isKeyPressed(Keyboard::Left)) {
 			if (player.getPosition().x > 0.f) {
-				player.move(-0.5f, 0.f);
+				player.move(-0.6f, 0.f);
 			}
 		}
 		if (Keyboard::isKeyPressed(Keyboard::Right)) {
 			if (player.getPosition().x + player.getSize().x < windowSize.x) {
-				player.move(0.5f, 0.f);
+				player.move(0.6f, 0.f);
 			}
 		}
 	}
@@ -179,15 +179,20 @@ public:
 		window.draw(player);
 	}
 	
-	Vector2f getBallPosition() const
-	{
-		return ball.getPosition();
+	Vector2f getBallPosition() const {
+		Vector2f pos = ball.getPosition();
+		float radius = ball.getRadius();
+		return { pos.x + radius, pos.y + radius };
 	}
 
-	void ballHasTouchedABlock()
-	{
-		ballVelocity.y = -ballVelocity.y;
-		ball.move(ballVelocity); // Move the ball after changing direction
+	void ballHasTouchedABlock(CollisionSide side) {
+		if (side == CollisionSide::TOP || side == CollisionSide::BOTTOM) {
+			ballVelocity.y = -ballVelocity.y;
+		}
+		else if (side == CollisionSide::LEFT || side == CollisionSide::RIGHT) {
+			ballVelocity.x = -ballVelocity.x;
+		}
+		ball.move(ballVelocity);
 	}
 private:
 	CircleShape ball;

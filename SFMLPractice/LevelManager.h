@@ -1,6 +1,8 @@
 #pragma once
 #include"GameObjectFactory.h"
 #include<vector>
+#include"CollisionTypes.h"
+using namespace std;
 using std::vector;
 
 
@@ -10,7 +12,10 @@ enum class BlockType
 	UNBREAKABLE,
 	NONE
 };
-
+struct BlockCollision {
+	BlockType type;
+	CollisionSide side;
+};
 
 class LevelManager
 {
@@ -32,6 +37,42 @@ public:
 		blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(750, 100)));
 	}
 
+	BlockCollision detectCollision(const Vector2f& circleCenter, float radius) {
+		for (auto block = blocks.begin(); block != blocks.end(); block++) {
+			FloatRect blockBounds = block->getGlobalBounds();
+
+			float closestX = max(blockBounds.left, min(circleCenter.x, blockBounds.left + blockBounds.width));
+			float closestY = max(blockBounds.top, min(circleCenter.y, blockBounds.top + blockBounds.height));
+
+			float distanceX = circleCenter.x - closestX;
+			float distanceY = circleCenter.y - closestY;
+			float distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+
+			if (distanceSquared < (radius * radius)) {
+				float overlapLeft = circleCenter.x - blockBounds.left;
+				float overlapRight = (blockBounds.left + blockBounds.width) - circleCenter.x;
+				float overlapTop = circleCenter.y - blockBounds.top;
+				float overlapBottom = (blockBounds.top + blockBounds.height) - circleCenter.y;
+
+				float minOverlap = min({ overlapLeft, overlapRight, overlapTop, overlapBottom });
+
+				CollisionSide side = CollisionSide::NONE;
+				if (minOverlap == overlapLeft) side = CollisionSide::LEFT;
+				else if (minOverlap == overlapRight) side = CollisionSide::RIGHT;
+				else if (minOverlap == overlapTop) side = CollisionSide::TOP;
+				else if (minOverlap == overlapBottom) side = CollisionSide::BOTTOM;
+
+				if (block->getFillColor() == Color::White) {
+					block = blocks.erase(block);
+					return { BlockType::BREAKABLE, side };
+				}
+				else if (block->getFillColor() == Color::Blue) {
+					return { BlockType::UNBREAKABLE, side };
+				}
+			}
+		}
+		return { BlockType::NONE, CollisionSide::NONE };
+	}
 	void drawLevel(RenderTarget& window)
 	{
 		for (const auto& block : blocks)
@@ -46,12 +87,12 @@ public:
 		{
 			if (block->getGlobalBounds().contains(position))
 			{
-				if (block->getFillColor() == Color::White) // Assuming breakable blocks are red
+				if (block->getFillColor() == Color::White) 
 				{
-					block = blocks.erase(block); // Remove the block if it's breakable
+					block = blocks.erase(block); 
 					return BlockType::BREAKABLE;
 				}
-				else if (block->getFillColor() == Color::Blue) // Assuming unbreakable blocks are blue
+				else if (block->getFillColor() == Color::Blue)
 				{
 					return BlockType::UNBREAKABLE;
 				}
