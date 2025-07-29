@@ -24,6 +24,11 @@ public:
 				window.close();
 				return;
 			}
+			else if(updatedState == GameState::WON)
+			{
+				window.close();
+				return;
+			}
 
 			renderScreen();
 		}

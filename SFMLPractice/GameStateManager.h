@@ -6,7 +6,8 @@ enum GameState
 {
 	MAIN_MENU,
 	PLAYING,
-	GAME_OVER
+	GAME_OVER,
+	WON
 };
 
 class GameStateManager
@@ -18,9 +19,22 @@ public:
 	GameState updateState()
 	{
 		moveableObjectManager.handlePlayerMovement();
-		if (!moveableObjectManager.updateBallMovement()) {
-			return GAME_OVER;
+
+		BlockType blockType = levelManager.getBlockType(moveableObjectManager.getBallPosition());
+
+		if(blockType == BlockType::NONE) {
+			if (!moveableObjectManager.updateBallMovement()) {
+				return GAME_OVER;
+			}
 		}
+		else if (blockType == BlockType::BREAKABLE && levelManager.remainingBlocks() <= 0)
+		{
+			return WON;
+		}
+		else if (blockType == BlockType::BREAKABLE || blockType == BlockType::UNBREAKABLE) {
+			moveableObjectManager.ballHasTouchedABlock();
+		}
+		
 		return PLAYING;
 	}
 

@@ -6,9 +6,9 @@ using std::vector;
 
 enum class BlockType
 {
-	Breakable,
-	Unbreakable,
-	None
+	BREAKABLE,
+	UNBREAKABLE,
+	NONE
 };
 
 
@@ -40,7 +40,31 @@ public:
 		}
 	}
 
-	
+	BlockType getBlockType(const Vector2f& position)
+	{
+		for (auto block = blocks.begin(); block != blocks.end(); block++)
+		{
+			if (block->getGlobalBounds().contains(position))
+			{
+				if (block->getFillColor() == Color::White) // Assuming breakable blocks are red
+				{
+					block = blocks.erase(block); // Remove the block if it's breakable
+					return BlockType::BREAKABLE;
+				}
+				else if (block->getFillColor() == Color::Blue) // Assuming unbreakable blocks are blue
+				{
+					return BlockType::UNBREAKABLE;
+				}
+			}
+		}
+
+		return BlockType::NONE;
+	}
+
+	int remainingBlocks() const
+	{
+		return blocks.size();
+	}
 private:
 	vector<RectangleShape> blocks;
 };

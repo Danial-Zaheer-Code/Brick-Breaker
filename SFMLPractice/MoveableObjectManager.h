@@ -62,7 +62,17 @@ public:
 		window.draw(ball);
 		window.draw(player);
 	}
+	
+	Vector2f getBallPosition() const
+	{
+		return ball.getPosition();
+	}
 
+	void ballHasTouchedABlock()
+	{
+		ballVelocity.y = -ballVelocity.y;
+		ball.move(ballVelocity); // Move the ball after changing direction
+	}
 private:
 	CircleShape ball;
 	RectangleShape player;
