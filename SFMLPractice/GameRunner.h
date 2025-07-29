@@ -1,11 +1,11 @@
 #pragma once
-#include"GameStateManager.h"
+#include"GameLogicManager.h"
 
 class GameRunner
 {
 public:
 	GameRunner() : 
-		window(sf::VideoMode(1000, 800), "SFML Test"), gameStateManager(window.getSize()){}
+		window(sf::VideoMode(1000, 800), "SFML Test"), gameLogicManager(window.getSize()){}
 	~GameRunner() = default;
 
 	void run()
@@ -17,7 +17,7 @@ public:
 					window.close();
 			}
 
-			GameState updatedState = gameStateManager.updateState();
+			GameState updatedState = gameLogicManager.handleGameLogic();
 
 			if (updatedState == GameState::GAME_OVER)
 			{
@@ -38,21 +38,13 @@ private:
 	void renderScreen()
 	{
 		window.clear(Color::Black);
-
-		/*for (int i = 0; i < 5; i++)
-		{
-			for (int j = 0; j < 5; j++)
-			{
-				window.draw(level[i][j]);
-			}
-		}*/
-		gameStateManager.drawState(window);
+		gameLogicManager.drawGameObjects(window);
 		window.display();
 	}
 
 
 private:
 	RenderWindow window;
-	GameStateManager gameStateManager;
+	GameLogicManager gameLogicManager;
 };
 
