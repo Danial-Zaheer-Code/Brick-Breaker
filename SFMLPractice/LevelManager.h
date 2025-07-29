@@ -42,7 +42,7 @@ public:
 		blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(750, 100)));
 	}
 
-	BlockCollision detectCollision(const Vector2f& circleCenter, float radius) {
+	BlockCollision detectCollision(const Vector2f circleCenter, float radius) {
 		for (auto block = blocks.begin(); block != blocks.end(); block++) {
 			FloatRect blockBounds = block->getGlobalBounds();
 

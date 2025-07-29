@@ -21,8 +21,6 @@ public:
 	GameState handleGameLogic()
 	{
 		handlePlayerMovement();
-
-
 		return updateBallMovement();
 	}
 
@@ -64,14 +62,19 @@ private:
 
 		BlockCollision collision = levelManager.detectCollision(ballManager.getBallPosition(), ballManager.getBallRadius());
 
-		if (collision.type == BlockType::BREAKABLE) {
+		if (collision.side != CollisionSide::NONE) {
 			if (levelManager.remainingBlocks() <= 0) {
 				return WON;
 			}
-			ballManager.changeBallVelocityVertically();
-		}
-		else if (collision.type == BlockType::UNBREAKABLE) {
-			ballManager.changeBallVelocityVertically();
+
+			if (collision.side == CollisionSide::LEFT || collision.side == CollisionSide::RIGHT)
+			{
+				ballManager.changeBallVelocityHorizontally();
+			}
+			else
+			{
+				ballManager.changeBallVelocityVertically();
+			}
 		}
 
 		ballManager.moveBall();
