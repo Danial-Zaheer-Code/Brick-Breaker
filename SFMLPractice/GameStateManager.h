@@ -1,7 +1,5 @@
 #pragma once
 #include"GameLogicManager.h"
-#include"LevelManager.h"
-#include "CollisionTypes.h"
 
 class GameStateManager
 {

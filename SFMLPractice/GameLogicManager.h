@@ -1,6 +1,7 @@
 #pragma once
 #include "BallManager.h"
 #include "PlayerManager.h"
+#include "LevelManager.h"
 enum GameState
 {
 	MAIN_MENU,
@@ -22,12 +23,7 @@ public:
 		handlePlayerMovement();
 
 
-		if (!updateBallMovement())
-		{
-			return GameState::GAME_OVER;
-		}
-
-		return GameState::PLAYING;
+		return updateBallMovement();
 	}
 
 private:
@@ -44,7 +40,7 @@ private:
 		}
 	}
 
-	bool updateBallMovement()
+	GameState updateBallMovement()
 	{
 		if (ballManager.hasTouchedMainWindowSideWays())
 		{
@@ -63,11 +59,23 @@ private:
 
 		if (ballManager.hasTouchedMainWindowBottom())
 		{
-			return false;
+			return GAME_OVER;
+		}
+
+		BlockCollision collision = levelManager.detectCollision(ballManager.getBallPosition(), ballManager.getBallRadius());
+
+		if (collision.type == BlockType::BREAKABLE) {
+			if (levelManager.remainingBlocks() <= 0) {
+				return WON;
+			}
+			ballManager.changeBallVelocityVertically();
+		}
+		else if (collision.type == BlockType::UNBREAKABLE) {
+			ballManager.changeBallVelocityVertically();
 		}
 
 		ballManager.moveBall();
-		return true;
+		return PLAYING;
 	}
 
 public:
@@ -75,11 +83,13 @@ public:
 	{
 		ballManager.drawBall(window);
 		playerManager.drawPlayer(window);
+		levelManager.drawLevel(window);
 	}
 
 private:
 	PlayerManager playerManager;
 	BallManager ballManager;
+	LevelManager levelManager;
 };
 
 
