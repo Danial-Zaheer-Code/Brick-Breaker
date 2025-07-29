@@ -16,6 +16,13 @@ public:
 	GameLogicManager(Vector2u _windowSize) : playerManager(Vector2f(460.f, 600.f), _windowSize), ballManager(Vector2f(playerManager.getPlayerPosition().x + playerManager.getPlayerSize().x / 2, playerManager.getPlayerPosition().y), _windowSize) {}
 
 	~GameLogicManager() = default;
+	
+	void drawGameObjects(RenderTarget& window)
+	{
+		ballManager.drawBall(window);
+		playerManager.drawPlayer(window);
+		levelManager.drawLevel(window);
+	}
 
 
 	GameState handleGameLogic()
@@ -40,55 +47,54 @@ private:
 
 	GameState updateBallMovement()
 	{
-		if (ballManager.hasTouchedMainWindowSideWays())
+		if (ballManager.hasBallTouchedMainWindowSideWays())
 		{
 			ballManager.changeBallVelocityHorizontally();
 		}
 
-		if (ballManager.hasTouchedMainWindowTop())
+		if (ballManager.hasBallTouchedMainWindowTop())
 		{
 			ballManager.changeBallVelocityVertically();
 		}
 
-		if (playerManager.hasTouchedBall(ballManager.getBallPosition(),ballManager.getBallRadius()))
-		{
-			ballManager.changeBallVelocityVertically();
-		}
-
-		if (ballManager.hasTouchedMainWindowBottom())
+		if (ballManager.hasBallTouchedMainWindowBottom())
 		{
 			return GAME_OVER;
 		}
 
-		BlockCollision collision = levelManager.detectCollision(ballManager.getBallPosition(), ballManager.getBallRadius());
 
-		if (collision.side != CollisionSide::NONE) {
-			if (levelManager.remainingBlocks() <= 0) {
-				return WON;
-			}
+		CollisionSide side = playerManager.hasTouchedBall(ballManager.getBallPosition(), ballManager.getBallRadius());
+		if(side == CollisionSide::LEFT || side == CollisionSide::RIGHT)
+		{
+			ballManager.changeBallVelocityHorizontally();
+		}
+		else if (side == CollisionSide::TOP || side == CollisionSide::BOTTOM)
+		{
+			ballManager.changeBallVelocityVertically();
+		}
+		else
+		{
 
-			if (collision.side == CollisionSide::LEFT || collision.side == CollisionSide::RIGHT)
-			{
-				ballManager.changeBallVelocityHorizontally();
-			}
-			else
-			{
-				ballManager.changeBallVelocityVertically();
+			CollidedObject collision = levelManager.detectCollision(ballManager.getBallPosition(), ballManager.getBallRadius());
+
+			if (collision.side != CollisionSide::NONE) {
+				if (levelManager.remainingBlocks() <= 0) {
+					return WON;
+				}
+
+				if (collision.side == CollisionSide::LEFT || collision.side == CollisionSide::RIGHT)
+				{
+					ballManager.changeBallVelocityHorizontally();
+				}
+				else
+				{
+					ballManager.changeBallVelocityVertically();
+				}
 			}
 		}
-
 		ballManager.moveBall();
 		return PLAYING;
 	}
-
-public:
-	void drawGameObjects(RenderTarget& window)
-	{
-		ballManager.drawBall(window);
-		playerManager.drawPlayer(window);
-		levelManager.drawLevel(window);
-	}
-
 private:
 	PlayerManager playerManager;
 	BallManager ballManager;

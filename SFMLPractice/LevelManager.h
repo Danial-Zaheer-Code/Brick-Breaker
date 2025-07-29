@@ -1,26 +1,8 @@
 #pragma once
 #include"GameObjectFactory.h"
+#include"Enums.h"
 #include<vector>
 using namespace std;
-using std::vector;
-
-enum class CollisionSide {
-	TOP,
-	BOTTOM,
-	LEFT,
-	RIGHT,
-	NONE
-};
-enum class BlockType
-{
-	BREAKABLE,
-	UNBREAKABLE,
-	NONE
-};
-struct BlockCollision {
-	BlockType type;
-	CollisionSide side;
-};
 
 class LevelManager
 {
@@ -42,7 +24,7 @@ public:
 		blocks.push_back(GameObjectFactory::createUnbreakableBlock(Vector2f(750, 100)));
 	}
 
-	BlockCollision detectCollision(const Vector2f circleCenter, float radius) {
+	CollidedObject detectCollision(const Vector2f circleCenter, float radius) {
 		for (auto block = blocks.begin(); block != blocks.end(); block++) {
 			FloatRect blockBounds = block->getGlobalBounds();
 
@@ -69,14 +51,14 @@ public:
 
 				if (block->getFillColor() == Color::White) {
 					block = blocks.erase(block);
-					return { BlockType::BREAKABLE, side };
+					return { ObjectType::BREAKABLE_BLOCK, side };
 				}
 				else if (block->getFillColor() == Color::Blue) {
-					return { BlockType::UNBREAKABLE, side };
+					return { ObjectType::UNBREAKABLE_BLOCK, side };
 				}
 			}
 		}
-		return { BlockType::NONE, CollisionSide::NONE };
+		return { ObjectType::NONE, CollisionSide::NONE };
 	}
 	void drawLevel(RenderTarget& window)
 	{

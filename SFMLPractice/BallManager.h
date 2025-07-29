@@ -40,30 +40,27 @@ public:
 		window.draw(ball);
 	}
 
-	bool hasTouchedMainWindowSideWays() const
+	bool hasBallTouchedMainWindowSideWays() const
 	{
 		Vector2f ballPosition = ball.getPosition();
-		float radius = ball.getRadius();
 		return (ballPosition.x + radius >= windowSize.x || ballPosition.x <= 0);
 	}
 
-	bool hasTouchedMainWindowTop() const
+	bool hasBallTouchedMainWindowTop() const
 	{
 		Vector2f ballPosition = ball.getPosition();
-		float radius = ball.getRadius();
 		return (ballPosition.y <= 0);
 	}
 
-	bool hasTouchedMainWindowBottom() const
+	bool hasBallTouchedMainWindowBottom() const
 	{
 		Vector2f ballPosition = ball.getPosition();
-		float radius = ball.getRadius();
 		return (ballPosition.y + radius >= windowSize.y);
 	}
 
 private:
 	CircleShape ball;
-	Vector2f ballVelocity = Vector2f(0.5f, -0.5f);
+	Vector2f ballVelocity = Vector2f(0.5f, 0.5f);
 	const float radius = 7.f;
 	const Vector2u windowSize;
 

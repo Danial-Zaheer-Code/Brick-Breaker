@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BallManager.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="GameObjectFactory.h" />
     <ClInclude Include="GameRunner.h" />
     <ClInclude Include="LevelManager.h" />
