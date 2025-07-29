@@ -86,27 +86,6 @@ public:
 		}
 	}
 
-	BlockType getBlockType(const Vector2f& position)
-	{
-		for (auto block = blocks.begin(); block != blocks.end(); block++)
-		{
-			if (block->getGlobalBounds().contains(position))
-			{
-				if (block->getFillColor() == Color::White) 
-				{
-					block = blocks.erase(block); 
-					return BlockType::BREAKABLE;
-				}
-				else if (block->getFillColor() == Color::Blue)
-				{
-					return BlockType::UNBREAKABLE;
-				}
-			}
-		}
-
-		return BlockType::NONE;
-	}
-
 	int remainingBlocks() const
 	{
 		return blocks.size();
