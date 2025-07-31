@@ -46,20 +46,38 @@ public:
 	}
 };
 
-class BlockType
-{
-	BlockType(ObjectType type)
+class Block
+{	
+public:
+	Block(Vector2f position)
 	{
-
+		block = RectangleShape(Vector2f(45.f, 15.f));
+		block.setPosition(position);
 	}
+
 	void draw(RenderTarget& window)
 	{
 		window.draw(block);
 	}
-private:
+protected:
 	ObjectType type;
 	RectangleShape block;
 };
+
+class BreakableBlock : Block
+{
+public:
+	BreakableBlock(Vector2f position):Block(position)
+	{
+		type = ObjectType::BREAKABLE_BLOCK;
+	}
+};
+
+class UnBreakableBlock : Block
+{
+
+};
+
 
 class LevelManager
 {
