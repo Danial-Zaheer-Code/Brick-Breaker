@@ -1,5 +1,6 @@
 #pragma once
-#include "GameObjectFactory.h"
+#include <SFML/Graphics.hpp>
+using namespace sf;
 
 class BallManager
 {
@@ -7,7 +8,9 @@ public:
 	BallManager(Vector2f position, Vector2u _windowSize) :windowSize(_windowSize)
 	{
 		position.y = position.y - radius - radius;
-		ball = GameObjectFactory::createBall(position);
+		ball = CircleShape(radius);
+		ball.setFillColor(Color::Red);
+		ball.setPosition(position);
 	}
 
 	void changeBallVelocityHorizontally()
@@ -63,5 +66,4 @@ private:
 	Vector2f ballVelocity = Vector2f(0.5f, 0.5f);
 	const float radius = 7.f;
 	const Vector2u windowSize;
-
 };

@@ -1,8 +1,9 @@
 #pragma once
 #include<algorithm>
-#include "GameObjectFactory.h"
+#include <SFML/Graphics.hpp>
 #include"Enums.h"
 
+using namespace sf;
 using namespace std;
 
 class PlayerManager
@@ -18,7 +19,9 @@ public:
 public:
 	PlayerManager(Vector2f position, Vector2u _windowSize) : windowSize(_windowSize)
 	{
-		player = GameObjectFactory::createPlayer(position);
+		player = RectangleShape(Vector2f(65.f, 6.f));
+		player.setPosition(position);
+		player.setFillColor(Color::Green);
 	}
 
 	void movePlayer(PlayerDirection direction)

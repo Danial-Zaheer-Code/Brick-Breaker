@@ -6,11 +6,12 @@ enum class CollisionSide {
 	RIGHT,
 	NONE
 };
+
 enum class ObjectType
 {
-	BREAKABLE_BLOCK,
-	UNBREAKABLE_BLOCK,
-	PLAYER,
+	PLAYER = 0,
+	BREAKABLE_BLOCK = 100,
+	UNBREAKABLE_BLOCK = 200,
 	NONE
 };
 struct CollidedObject {

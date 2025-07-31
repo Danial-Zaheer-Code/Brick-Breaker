@@ -2,26 +2,29 @@
 #include <SFML/Graphics.hpp>
 using namespace sf;
 
-class GameObjectFactory 
+#pragma once
+#include"Enums.h"
+
+class BlockFactory 
 {
 public:
-	static RectangleShape createBreakableBlock(Vector2f position)
+	static RectangleShape create(Vector2f position, ObjectType type)
 	{
-		return createRectangle(Vector2f(45.f, 15.f), position, Color::White);
-	}
-
-	static RectangleShape createUnbreakableBlock(Vector2f position)
-	{
-		return createRectangle(Vector2f(45.f, 15.f), position, Color::Blue);;
-	}
-
-	static RectangleShape createPlayer(Vector2f position)
-	{
-		return createRectangle(Vector2f(65.f, 6.f), position, Color::Green);
+		switch (type)
+		{
+		case ObjectType::BREAKABLE_BLOCK:
+			return createBlock(Vector2f(45.f, 15.f), position, Color::White);
+			break;
+		case ObjectType::UNBREAKABLE_BLOCK:
+			return createBlock(Vector2f(45.f, 15.f), position, Color::Blue);
+			break;
+		default:
+			throw new invalid_argument("Wrong Block type");
+		} 
 	}
 
 private:
-	static RectangleShape createRectangle(Vector2f size, Vector2f position, Color color)
+	static RectangleShape createBlock(Vector2f size, Vector2f position, Color color)
 	{
 		RectangleShape rect(size);
 		rect.setFillColor(color);
@@ -29,14 +32,6 @@ private:
 		return rect;
 	}
 
-public:
-	static CircleShape createBall(Vector2f position)
-	{
-		CircleShape ball = CircleShape(7.f);
-		ball.setFillColor(Color::Red);
-		ball.setPosition(position);
-		return ball;
-	}
 };
 
 
